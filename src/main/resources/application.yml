@@ -2,4 +2,4 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://admin:admin@stockon.rgg7ygu.mongodb.net/?retryWrites=true&w=majority
-      database: productdb
+      database: subwaydb
