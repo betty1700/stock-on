@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeStackScreen from './HomeStackScreen'
@@ -20,23 +20,26 @@ export default function BottomNavigation() {
   
               switch (route.name) {
                 case 'HomeStackScreen':
-                  iconName = 'home-outline'
-                  break
-                case 'CategoryStackScreen':
-                  iconName = 'menu-outline'
+                  iconName = 'home'
                   size = 30
                   break
-                case 'SearchStackScreen':
-                  iconName = 'search'
+                case 'SubwayStackScreen':
+                  iconName = 'subway'
+                  size = 32
+                  break
+                case 'GPSStackScreen':
+                  iconName = 'location'
+                  size = 32
                   break
                 case 'MyPageStackScreen':
                   iconName = 'person-circle-outline'
-                  size = 28
+                  size = 34
                   break
                 default:
+                  iconName = "add-circle-sharp"
                   break
               }
-              return <Icon name="home" size={size} color={color} />
+              return <Ionicons name={iconName} size={size} color={color} />
             },
             tabBarActiveTintColor: 'black',
             tabBarInactiveTintColor: 'gray',
