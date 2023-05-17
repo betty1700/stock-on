@@ -16,9 +16,9 @@ import {
 
 function App(): JSX.Element {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <BottomNavigation />
-    </Provider>
+    // </Provider>
   );
 }
 
