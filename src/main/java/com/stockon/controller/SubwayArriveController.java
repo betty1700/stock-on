@@ -1,36 +1,38 @@
 package com.stockon.controller;
 
 
+
 import com.stockon.entity.SubwayArrive;
+import com.stockon.repo.SubwayArriveRepo;
+import com.stockon.service.SubwayArriveService;
 import com.stockon.service.impl.SubwayArriveServiceImplements;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
-@RequestMapping(value = "/api/subway")
+@RequestMapping("/api")
 public class SubwayArriveController {
-
-    @Autowired
-    private final SubwayArriveServiceImplements subwayArriveServiceImplements;
+    private OpenApiController openApiController;
 
 
-    public SubwayArriveController(SubwayArriveServiceImplements subwayArriveService){
-        this.subwayArriveServiceImplements = subwayArriveService;
 
+    @GetMapping("/show")
+    public String showSubway() throws IOException {
+        OpenApiController openApiController1 = new OpenApiController();
+        this.openApiController = openApiController1;
+        return openApiController1.getOpenApiDocument();
+    }
 
+    @SneakyThrows
+    @GetMapping("/save")
+    public void saveSubway() {
+        SubwayArriveService subwayArriveService = new SubwayArriveServiceImplements();
+
+        subwayArriveService.init(openApiController.getOpenApiDocument());
     }
 
 
-    @GetMapping("/realtimeStationArrival/ALL")
-    public SubwayArrive getRealtimeArrival(){
-        return subwayArriveServiceImplements.getSubwayArrive();
-    }
 
-    @DeleteMapping("/delete/{subwayId}")
-    public SubwayArrive delete(@PathVariable int subwayId){
-        return subwayArriveServiceImplements.deleteSubwayArrive(subwayId);
-    }
-
-    }
-
-
+}
