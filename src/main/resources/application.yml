@@ -1,5 +1,15 @@
+server:
+  port: 8102
+
+
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://admin:admin@stockon.rgg7ygu.mongodb.net/?retryWrites=true&w=majority
-      database: productdb
+      uri: mongodb+srv://admin:admin@stockon.rgg7ygu.mongodb.net/subway?retryWrites=true&w=majority
+
+
+subway:
+  openApi:
+    realtimeArrival:
+      uri: http://swopenapi.seoul.go.kr/
+    apiKey: 4974615957726c6135336e43515952
