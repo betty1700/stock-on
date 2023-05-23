@@ -1,14 +1,11 @@
 package com.stockon.service.impl;
 
 import com.stockon.entity.SubwayArrive;
-import com.stockon.repo.SubwayArriveRepo;
 import com.stockon.service.SubwayArriveService;
-import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +14,10 @@ import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 public class SubwayArriveServiceImplements implements SubwayArriveService{
 
-        @Autowired
-        public SubwayArriveService subwayArriveService;
+        private List<SubwayArrive> list;
 
-        final SubwayArriveRepo subwayArriveRepo;
 
         @Value("${subway.openApi.realtimeArrival.uri}")
         private String apiUrl;
@@ -39,6 +33,7 @@ public class SubwayArriveServiceImplements implements SubwayArriveService{
                         JSONParser jsonParser = new JSONParser();
                         //파싱할 String (OpenApiController에서 호출된 String result값)을 json객체로 파서를통해 저장.
                         JSONObject jsonObj=(JSONObject) jsonParser.parse(str);
+
                         //데이터 분해 단계
 
                         //response 받아옴
@@ -48,7 +43,7 @@ public class SubwayArriveServiceImplements implements SubwayArriveService{
                         //realtimeArrivalList 데이터는 List의형태이기에 json배열로 받아옴.
                         JSONArray array = (JSONArray) jsonObj.get("realtimeArrivalList");
 
-                        List<String> subwayArriveList = new ArrayList<>();
+                        List<SubwayArrive> subwayArriveList = new ArrayList<>();
                         for (int i = 0; i < array.size(); i++) {
                                 jObj = (JSONObject) array.get(i);
 
@@ -74,10 +69,12 @@ public class SubwayArriveServiceImplements implements SubwayArriveService{
                                         .arvlMsg3(getStringValue(jObj, "arvlMsg3"))
                                         .arvlCd(getStringValue(jObj, "arvlCd"))
                                         .build();
-                                subwayArriveRepo.save(subwayArrive1);
-                                subwayArriveList.add(subwayArrive1.toString());
+
+                                subwayArriveList.add(subwayArrive1);
                                 }
 
+
+                        this.list = subwayArriveList;
                         for (int i = 0; i < subwayArriveList.size(); i++) {
                                 System.out.println(subwayArriveList.get(i));
                         }
@@ -87,6 +84,14 @@ public class SubwayArriveServiceImplements implements SubwayArriveService{
 
 
         }
+
+        @Override
+        public List<SubwayArrive> getList(){
+                return this.list;
+        }
+
+
+        //null 예외처리
         private String getStringValue(JSONObject jsonObject, String key){
                 Object value = jsonObject.get(key);
                 if(value != null){
